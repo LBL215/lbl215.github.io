@@ -1,81 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ADMIN</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <h1>&gt; admin_console</h1>
-</header>
+<div class="admin-box">
+  <h2>ADMIN ACCESS</h2>
 
-<main id="login">
-  <section class="card">
-    <h2>Authentication Required</h2>
-    <input id="user" placeholder="Username">
-    <input id="pass" type="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <p id="error"></p>
-  </section>
-</main>
+  <input id="user" placeholder="Username">
+  <input id="pass" type="password" placeholder="Password">
 
-<main id="admin" style="display:none;">
-  <section class="card">
-    <h2>Create Blog Post</h2>
+  <button id="loginBtn">Login</button>
+  <p id="error"></p>
+</div>
 
-    <input id="title" placeholder="Post title">
-    <textarea id="content" placeholder="Post content"></textarea>
-
-    <button onclick="savePost()">Save Post</button>
-    <p id="status"></p>
-  </section>
-</main>
-
-<script>
-const USERNAME = "admin";
-const PASSWORD = "2015October31!@";
-
-function login() {
-  const u = user.value;
-  const p = pass.value;
-
-  if (u === USERNAME && p === PASSWORD) {
-    login.style.display = "none";
-    admin.style.display = "block";
-  } else {
-    error.textContent = "Access denied.";
-  }
-}
-
-function savePost() {
-  const title = document.getElementById("title").value.trim();
-  const content = document.getElementById("content").value.trim();
-
-  if (!title || !content) {
-    status.textContent = "Title and content required.";
-    return;
-  }
-
-  const posts = JSON.parse(localStorage.getItem("posts")) || [];
-
-  posts.unshift({
-    title,
-    content,
-    date: new Date().toLocaleString()
-  });
-
-  localStorage.setItem("posts", JSON.stringify(posts));
-
-  status.textContent = "Post saved successfully.";
-  document.getElementById("title").value = "";
-  document.getElementById("content").value = "";
-}
-</script>
-
-<script src="matrix.js"></script>
-<script src="boot.js"></script>
+<script src="admin.js"></script>
 </body>
 </html>
