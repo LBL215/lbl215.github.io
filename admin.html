@@ -1,46 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ADMIN</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: monospace; background:#000; color:#0f0; }
+    .card { background:#111; padding:20px; margin:20px auto; border-radius:10px; width:90%; max-width:400px; }
+    input, textarea, button { display:block; width:100%; margin:10px 0; padding:8px; border-radius:5px; border:none; }
+    button { background:#0f0; color:#000; cursor:pointer; font-weight:bold; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>&gt; admin_console</h1>
+</header>
+
+<!-- LOGIN SECTION -->
+<main id="loginSection" class="card">
+  <h2>Authentication Required</h2>
+  <input id="user" placeholder="Username">
+  <input id="pass" type="password" placeholder="Password">
+  <button id="loginBtn" type="button">Login</button>
+  <p id="error" style="color:red;"></p>
+</main>
+
+<!-- ADMIN POST EDITOR (hidden by default) -->
+<main id="editorSection" class="card" style="display:none;">
+  <h2>Create Blog Post</h2>
+  <input id="title" placeholder="Post title">
+  <textarea id="content" placeholder="Post content"></textarea>
+  <button id="saveBtn" type="button">Save Post</button>
+  <p id="status" style="color:#0f0;"></p>
+  <button id="logoutBtn" type="button" style="background:#f00;color:#fff;">Logout</button>
+</main>
+
 <script>
 const USERNAME = "admin";
 const PASSWORD = "2015October31!@";
 
-function login() {
-  const u = document.getElementById("user").value;
-  const p = document.getElementById("pass").value;
+// DOM Elements
+const loginSection = document.getElementById("loginSection");
+const editorSection = document.getElementById("editorSection");
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const saveBtn = document.getElementById("saveBtn");
+const errorP = document.getElementById("error");
+const statusP = document.getElementById("status");
 
-  const loginDiv = document.getElementById("login");
-  const adminDiv = document.getElementById("admin");
-  const errorP = document.getElementById("error");
-
-  if (u === USERNAME && p === PASSWORD) {
-    loginDiv.style.display = "none";
-    adminDiv.style.display = "block";
-    errorP.textContent = "";
-  } else {
-    errorP.textContent = "Access denied.";
-  }
+// Check if admin is already logged in
+if(localStorage.getItem("admin") === "true") {
+  loginSection.style.display = "none";
+  editorSection.style.display = "block";
 }
 
-function savePost() {
+// Login
+loginBtn.addEventListener("click", () => {
+  const user = document.getElementById("user").value.trim();
+  const pass = document.getElementById("pass").value.trim();
+
+  if(user === USERNAME && pass === PASSWORD) {
+    localStorage.setItem("admin", "true");
+    loginSection.style.display = "none";
+    editorSection.style.display = "block";
+    errorP.textContent = "";
+  } else {
+    errorP.textContent = "ACCESS DENIED";
+  }
+});
+
+// Logout
+logoutBtn.addEventListener("click", () => {
+  localStorage.removeItem("admin");
+  editorSection.style.display = "none";
+  loginSection.style.display = "block";
+  document.getElementById("user").value = "";
+  document.getElementById("pass").value = "";
+  statusP.textContent = "";
+});
+
+// Save Post
+saveBtn.addEventListener("click", () => {
   const title = document.getElementById("title").value.trim();
   const content = document.getElementById("content").value.trim();
-  const statusP = document.getElementById("status");
 
-  if (!title || !content) {
+  if(!title || !content) {
     statusP.textContent = "Title and content required.";
     return;
   }
 
   const posts = JSON.parse(localStorage.getItem("posts")) || [];
-
-  posts.unshift({
-    title,
-    content,
-    date: new Date().toLocaleString()
-  });
-
+  posts.unshift({ title, content, date: new Date().toLocaleString() });
   localStorage.setItem("posts", JSON.stringify(posts));
 
-  statusP.textContent = "Post saved successfully.";
+  statusP.textContent = "Post saved successfully!";
   document.getElementById("title").value = "";
   document.getElementById("content").value = "";
-}
+});
 </script>
+
+</body>
+</html>
