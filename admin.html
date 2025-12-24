@@ -1,19 +1,46 @@
-<!-- admin.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Admin Login</title>
-</head>
-<body>
-  <h2>Admin Login</h2>
-  <form id="loginForm">
-    <input type="text" id="user" placeholder="Username">
-    <input type="password" id="pass" placeholder="Password">
-    <button type="submit">Login</button>
-  </form>
-  <p id="msg"></p>
+<script>
+const USERNAME = "admin";
+const PASSWORD = "2015October31!@";
 
-  <script src="admin.js"></script>
-</body>
-</html>
+function login() {
+  const u = document.getElementById("user").value;
+  const p = document.getElementById("pass").value;
+
+  const loginDiv = document.getElementById("login");
+  const adminDiv = document.getElementById("admin");
+  const errorP = document.getElementById("error");
+
+  if (u === USERNAME && p === PASSWORD) {
+    loginDiv.style.display = "none";
+    adminDiv.style.display = "block";
+    errorP.textContent = "";
+  } else {
+    errorP.textContent = "Access denied.";
+  }
+}
+
+function savePost() {
+  const title = document.getElementById("title").value.trim();
+  const content = document.getElementById("content").value.trim();
+  const statusP = document.getElementById("status");
+
+  if (!title || !content) {
+    statusP.textContent = "Title and content required.";
+    return;
+  }
+
+  const posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+  posts.unshift({
+    title,
+    content,
+    date: new Date().toLocaleString()
+  });
+
+  localStorage.setItem("posts", JSON.stringify(posts));
+
+  statusP.textContent = "Post saved successfully.";
+  document.getElementById("title").value = "";
+  document.getElementById("content").value = "";
+}
+</script>
