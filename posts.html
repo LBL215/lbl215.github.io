@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+  <h1>&gt; blog.log</h1>
+</header>
+
+<main id="posts"></main>
+
+<footer>
+  <a class="link" href="index.html">← Back</a>
+</footer>
+
+<script>
+const posts = JSON.parse(localStorage.getItem("posts")) || [];
+const container = document.getElementById("posts");
+
+if (posts.length === 0) {
+  container.innerHTML = "<p>No posts yet.</p>";
+}
+
+posts.forEach(post => {
+  const el = document.createElement("section");
+  el.className = "card";
+  el.innerHTML = `
+    <h2>${post.title}</h2>
+    <small>${post.date}</small>
+    <p>${post.content}</p>
+  `;
+  container.appendChild(el);
+});
+</script>
+
+<script src="matrix.js"></script>
+<script src="boot.js"></script>
+</body>
+</html>
