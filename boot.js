@@ -44,7 +44,6 @@ function typeLine(text, cb) {
     if (i >= text.length) {
       clearInterval(interval);
       terminal.textContent += "\n";
-      setTimeout(cb, 300); // small delay before next line
     }
   }, 25);
 }
