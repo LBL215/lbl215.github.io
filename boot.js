@@ -1,16 +1,47 @@
-// boot.js
-const bootText = ["Initializing...", "Loading modules...", "Starting system..."];
-const bootDiv = document.getElementById("boot");
-let i = 0;
+const bootLines = [
+  "loading modules...",
+  "injecting matrix stream...",
+  "verifying permissions...",
+  "access level: USER",
+  "launching interface...",
+  "system ready."
+];
 
-function showNextLine() {
-  if(i < bootText.length) {
-    bootDiv.innerText = bootText[i];
+const boot = document.createElement("div");
+boot.id = "boot";
+
+const terminal = document.createElement("pre");
+terminal.id = "bootText";
+
+boot.appendChild(terminal);
+document.body.appendChild(boot);
+
+let line = 0;
+
+function typeLine(text, cb) {
+  let i = 0;
+  const interval = setInterval(() => {
+    terminal.textContent += text[i];
     i++;
-    setTimeout(showNextLine, 1000); // 1 second between lines
+    if (i >= text.length) {
+      clearInterval(interval);
+      terminal.textContent += "\n";
+      setTimeout(cb, 300);
+    }
+  }, 25);
+}
+
+function runBoot() {
+  if (line < bootLines.length) {
+    typeLine("> " + bootLines[line], () => {
+      line++;
+      runBoot();
+    });
   } else {
-    bootDiv.innerText = "Boot complete!";
+    setTimeout(() => {
+      boot.classList.add("hide");
+    }, 700);
   }
 }
 
-showNextLine();
+runBoot();
