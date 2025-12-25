@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{{ page.title }}</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<pre>
+[LOG] {{ page.date | date: "%Y-%m-%d" }}
+> {{ page.title }}
+</pre>
+
+<hr>
+
+{{ content }}
+
+<p><a href="/posts.html">[ back ]</a></p>
+
+</body>
+</html>
