@@ -1,44 +1,28 @@
+---
+layout: null
+---
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blog</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>blog.log</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-<header>
-  <h1>&gt; blog.log</h1>
-</header>
+<h1>&gt; blog.log</h1>
 
-<main id="posts"></main>
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+      <small>{{ post.date | date: "%Y-%m-%d" }}</small>
+    </li>
+  {% endfor %}
+</ul>
 
-<footer>
-  <a class="link" href="index.html">← Back</a>
-</footer>
+<p><a href="/index.html">[ back ]</a></p>
 
-<script>
-const posts = JSON.parse(localStorage.getItem("posts")) || [];
-const container = document.getElementById("posts");
-
-if (posts.length === 0) {
-  container.innerHTML = "<p>No posts yet.</p>";
-}
-
-posts.forEach(post => {
-  const el = document.createElement("section");
-  el.className = "card";
-  el.innerHTML = `
-    <h2>${post.title}</h2>
-    <small>${post.date}</small>
-    <p>${post.content}</p>
-  `;
-  container.appendChild(el);
-});
-</script>
-
-<script src="matrix.js"></script>
-<script src="boot.js"></script>
 </body>
 </html>
