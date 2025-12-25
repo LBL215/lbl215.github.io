@@ -1,0 +1,4 @@
+title: lbl215
+description: Hacker blog
+markdown: kramdown
+permalink: /:title/
